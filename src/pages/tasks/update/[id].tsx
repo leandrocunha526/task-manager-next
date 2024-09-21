@@ -91,7 +91,8 @@ const TaskEditForm = () => {
         updatedAt: ''
     });
     const [lists, setLists] = useState<Lists[]>([]);
-    const [error, setError] = useState('');
+    const [error, setError] = useState<string>('');
+    const [validation, setValidation] = useState<string>('');
 
     useEffect(() => {
         if (id && typeof id === 'string') {
@@ -124,6 +125,14 @@ const TaskEditForm = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (task.title.length < 5) {
+            setValidation("Titulo é menor que 5 caracteres")
+        }
+
+        if (task.description.length < 5) {
+            setValidation("Descrição é menor que 5 caracteres")
+        }
         try {
             await api.put(`/api/items/${id}`, mapTaskToApiFormat(task));
             router.push('/'); // Redireciona após salvar
@@ -148,6 +157,7 @@ const TaskEditForm = () => {
     return (
         <FormContainer onSubmit={handleSubmit}>
             {error && <ErrorMessage>{error}</ErrorMessage>}
+            {validation && <ErrorMessage>{validation}</ErrorMessage>}
             <FormField>
                 <Label htmlFor="title">Título</Label>
                 <Input

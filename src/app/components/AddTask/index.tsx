@@ -42,11 +42,11 @@ const AddTask = ({ addTask }: AddTaskProps) => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setError("");
-        if (title.length <= 5) {
+        if (title.length < 5) {
             setError("O título deve ter mais de 5 caracteres.");
             return;
         }
-        if (description.length <= 5) {
+        if (description.length < 5) {
             setError("A descrição deve ter mais de 5 caracteres.");
             return;
         }
